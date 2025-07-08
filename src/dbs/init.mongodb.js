@@ -20,9 +20,9 @@ class Database {
         })
             .then(_ => {
                 countConnect()
-                console.log("Connect MongoDB Successfully")
+                console.log("Connect MongoDB Successfully 🌟")
             })
-            .catch(err => console.log("Error While Connecting MongoDB"))
+            .catch(err => console.log("Error While Connecting MongoDB ❌"))
     }
 
     static getInstance() {
