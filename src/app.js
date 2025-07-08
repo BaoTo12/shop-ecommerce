@@ -45,7 +45,7 @@ app.use(helmet())
 // You trade a bit of CPU work for faster network transfers and lower bandwidth.
 app.use(compression())
 //TODO: init Database
-
+require("./dbs/init.mongodb")
 
 //TODO: init routers
 app.get("/", (req, res, next) => {
