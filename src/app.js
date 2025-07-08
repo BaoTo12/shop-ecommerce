@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const { default: helmet } = require("helmet");
+const compression = require("compression");
 const app = express(); // used to initialize an instance of express
 
 //TODO: init middleware
@@ -40,13 +41,19 @@ app.use(morgan("dev"))
     
 */
 app.use(helmet())
+// ? compression: Compression in Node.js lets you shrink payloads (HTTP responses or files) using algorithms like Gzip or Brotli. 
+// You trade a bit of CPU work for faster network transfers and lower bandwidth.
+app.use(compression())
 //TODO: init Database
 
 
 //TODO: init routers
 app.get("/", (req, res, next) => {
+    const stringCompress = "Hello Fan";
+
     return res.status(200).json({
-        message: "Welcome ..."
+        message: "Welcome ...",
+        metadata: stringCompress.repeat(10000)
     })
 })
 
