@@ -1,0 +1,6 @@
+### The difference between .env and config folder
+- Config folder is used for declaring the settings for our application, can store multiple forms like Json, XML
+- .env is used to store sensitive information, and declare global environment variables
+
+### Learn to set up .evn with 3 levels: local, 
+
