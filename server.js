@@ -8,7 +8,7 @@ const server = app.listen(PORT, () => {
 });
 
 // subscribe a event handler for SIGINT Which is entering Ctrl+C in terminal
-process.on("SIGINT", () => {
-    server.close(() => console.log("Exit Server eCommerce")
-    )
-})
+// process.on("SIGINT", () => {
+//     server.close(() => console.log("Exit Server eCommerce")
+//     )
+// })

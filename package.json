@@ -19,5 +19,8 @@
   },
   "bundleDependencies": [
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  }
 }
