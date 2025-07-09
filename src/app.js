@@ -49,14 +49,7 @@ app.use(compression())
 require("./dbs/init.mongodb")
 
 //TODO: init routers
-app.get("/", (req, res, next) => {
-    const stringCompress = "Hello Fan";
-
-    return res.status(200).json({
-        message: "Welcome ...",
-        metadata: stringCompress.repeat(10000)
-    })
-})
+app.use("", require("./routes"))
 
 //TODO: handle errors
 
