@@ -3,7 +3,7 @@
 const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
 const { generateKeyPairSync } = require("node:crypto");
-const { default: KeyTokenService } = require("./keyToken.service");
+const KeyTokenService = require("./keyToken.service");
 const { createTokenPairs } = require("../auth/authUtils");
 
 const RoleShop = {
@@ -40,7 +40,7 @@ class AccessService {
 
             const newShop = await shopModel.create({
                 email,
-                hashedPassword,
+                password: hashedPassword,
                 name,
                 roles: [RoleShop.SHOP]
             })
@@ -58,8 +58,6 @@ class AccessService {
                     privateKeyEncoding: {
                         type: "pkcs8",  // Format: generic container including algorithm info
                         format: "pem", // Base64 again
-                        cipher: 'aes-256-cbc', // Symmetric cipher to encrypt the private key
-                        passphrase: 'top secret', // Password protecting the private key file
                     }
                 })
 
@@ -76,7 +74,7 @@ class AccessService {
                 }
 
                 // create Token Pair
-                const tokens = await createTokenPairs({ userId: newShop._id, email }, privateKey, publicKey)
+                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
                 console.log("Create token Successfully", tokens)
 
                 return {
