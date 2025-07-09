@@ -6,6 +6,11 @@ const compression = require("compression");
 const app = express(); // used to initialize an instance of express
 
 //TODO: init middleware
+// ? Convert Json into JavaScript object
+app.use(express.json());
+// ? parse incoming URL-encoded form data into req.body
+app.use(express.urlencoded({ extended: true }));
+
 //?: morgan is used to log whenever users do requests
 // morgan have 5 modes
 /*
