@@ -4,7 +4,7 @@ const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
 const { generateKeyPairSync } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
-const { createTokenPairs } = require("../auth/authUtils");
+const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -52,11 +52,12 @@ class AccessService {
                 const { privateKey, publicKey } = generateKeyPairSync("rsa", {
                     modulusLength: 4096, // Key size in bits → security/performance tradeoff
                     publicKeyEncoding: {
-                        type: "spki", // Format standard: “Subject Public Key Info”
+                        type: "pkcs1", // Format standard: “Subject Public Key Info” --> spki
+                        // Public Key Crypto Standard
                         format: "pem", // Encoding container: Base64 with header/footer
                     },
                     privateKeyEncoding: {
-                        type: "pkcs8",  // Format: generic container including algorithm info
+                        type: "pkcs1",  // Format: generic container including algorithm info
                         format: "pem", // Base64 again
                     }
                 })
@@ -72,9 +73,9 @@ class AccessService {
                         message: "PublicKeyString error"
                     }
                 }
-
+                const publicKeyObject = createPublicKey(publicKeyString)
                 // create Token Pair
-                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
+                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKeyObject, privateKey)
 
                 return {
                     code: "xxx",
