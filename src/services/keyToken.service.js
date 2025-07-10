@@ -30,8 +30,8 @@ class KeyTokenService {
             // The operation returns the updated version of the document
             const options = { upsert: true, new: true };
             const tokens = await keyTokenModel.findOneAndUpdate(filter, update, options);
-            console.log({tokens});
-            
+            console.log({ tokens });
+
             return tokens ? tokens.publicKey : null;
         } catch (error) {
             return error
@@ -41,8 +41,8 @@ class KeyTokenService {
     static findByUserId = async (userId) => {
         return await keyTokenModel.findOne({ user: new Types.ObjectId(userId) }).lean()
     }
-    static removeKeyById = async (id) => {
-        return await keyTokenModel.remove({ id })
+    static removeKeyById = async (_id) => {
+        return await keyTokenModel.deleteOne({ _id })
     }
 }
 

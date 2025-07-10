@@ -4,7 +4,7 @@ const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
 const { randomBytes } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
-const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
+const { createTokenPairs } = require("../auth/authUtils");
 const { getInfoShopData } = require("../utils");
 const { BadRequestError, AuthFailureError } = require("../core/error.response");
 const { findByEmail } = require("./shop.service");
@@ -16,10 +16,18 @@ const RoleShop = {
     ADMIN: "ADMIN"
 }
 
+
 class AccessService {
+    static logout = async (keyStore) => {
+        const deletedKey = await KeyTokenService.removeKeyById(keyStore._id)
+        console.log({ deletedKey });
+
+        return deletedKey;
+    }
+
     static login = async ({ email, password, refreshToken = null }) => {
         // 1 - check email
-        const shop = await findByEmail({email});
+        const shop = await findByEmail({ email });
         if (!shop) {
             throw new BadRequestError("Shop not found with " + email)
         }
