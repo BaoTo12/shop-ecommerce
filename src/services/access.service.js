@@ -2,11 +2,12 @@
 
 const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
-const { randomBytes, generateKeyPairSync } = require("node:crypto");
+const { randomBytes } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
 const { getInfoShopData } = require("../utils");
-const { BadRequestError } = require("../core/error.response");
+const { BadRequestError, AuthFailureError } = require("../core/error.response");
+const { findByEmail } = require("./shop.service");
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -16,6 +17,39 @@ const RoleShop = {
 }
 
 class AccessService {
+    static login = async ({ email, password, refreshToken = null }) => {
+        // 1 - check email
+        const shop = await findByEmail({email});
+        if (!shop) {
+            throw new BadRequestError("Shop not found with " + email)
+        }
+        // 2 - match password
+        const match = bcrypt.compare(password, shop.password);
+        if (!match) {
+            throw new AuthFailureError("Password is not match")
+        }
+        // 3 - create access token and refresh token and save
+        const privateKey = randomBytes(64).toString("hex")
+        const publicKey = randomBytes(64).toString("hex")
+        // 4 - generate tokens
+        const tokens = await createTokenPairs({
+            userId: shop._id,
+            email
+        }, publicKey, privateKey)
+
+        await KeyTokenService.createKeyToken({
+            refreshToken: tokens.refreshToken,
+            publicKey,
+            privateKey,
+            userId: shop._id
+        })
+        // 5 - return data
+        return {
+            shop: getInfoShopData({ fields: ["_id", "name", "email"], object: shop }),
+            tokens
+        }
+    }
+
     static signUp = async ({ name, email, password }) => {
         //TODO: check email whether it exists
         // when we use shopModel.findOne({ email }) --> mongoose wraps data in something called a Mongoose document 
@@ -71,7 +105,6 @@ class AccessService {
 
             if (!keyStore) {
                 return {
-                    code: "xxx",
                     message: "KeyStore error!!"
                 }
             }
@@ -80,17 +113,11 @@ class AccessService {
             const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
 
             return {
-                code: "xxx",
-                metadata: {
-                    shop: getInfoShopData({ fields: ["_id", "name", "email"], object: newShop }),
-                    tokens
-                }
+                shop: getInfoShopData({ fields: ["_id", "name", "email"], object: newShop }),
+                tokens
             }
         }
-        return {
-            code: "xxx",
-            metadata: null
-        }
+        return null
     }
 }
 // ? Necessary methods to work with "Mongoose Model"
