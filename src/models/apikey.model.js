@@ -23,11 +23,6 @@ var apikeySchema = new Schema({
         type: [String],
         required: true,
         enum: ['0000', '1111', '2222']
-    },
-    createAt: {
-        type: Date,
-        default: Date.now,
-        expires: "30d"
     }
 }, {
     timestamps: true,
