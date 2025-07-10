@@ -2,7 +2,7 @@
 
 const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
-const { generateKeyPairSync } = require("node:crypto");
+const { randomBytes, generateKeyPairSync } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
 const { getInfoShopData } = require("../utils");
@@ -50,33 +50,37 @@ class AccessService {
                 // generate token for new registered user
                 // Using asymmetric key
                 // Create privateKey is used for signing key, publicKey is used for verifying key
-                const { privateKey, publicKey } = generateKeyPairSync("rsa", {
-                    modulusLength: 4096, // Key size in bits → security/performance tradeoff
-                    publicKeyEncoding: {
-                        type: "pkcs1", // Format standard: “Subject Public Key Info” --> spki
-                        // Public Key Crypto Standard
-                        format: "pem", // Encoding container: Base64 with header/footer
-                    },
-                    privateKeyEncoding: {
-                        type: "pkcs1",  // Format: generic container including algorithm info
-                        format: "pem", // Base64 again
-                    }
-                })
+                // const { privateKey, publicKey } = generateKeyPairSync("rsa", {
+                //     modulusLength: 4096, // Key size in bits → security/performance tradeoff
+                //     publicKeyEncoding: {
+                //         type: "pkcs1", // Format standard: “Subject Public Key Info” --> spki
+                //         // Public Key Crypto Standard
+                //         format: "pem", // Encoding container: Base64 with header/footer
+                //     },
+                //     privateKeyEncoding: {
+                //         type: "pkcs1",  // Format: generic container including algorithm info
+                //         format: "pem", // Base64 again
+                //     }
+                // })
 
-                const publicKeyString = await KeyTokenService.createKeyToken({
+                const privateKey = randomBytes(64).toString("hex")
+                const publicKey = randomBytes(64).toString("hex")
+
+                const keyStore = await KeyTokenService.createKeyToken({
                     userId: newShop._id,
-                    publicKey
+                    publicKey,
+                    privateKey
                 });
 
-                if (!publicKeyString) {
+                if (!keyStore) {
                     return {
                         code: "xxx",
-                        message: "PublicKeyString error"
+                        message: "KeyStore error!!"
                     }
                 }
-                const publicKeyObject = createPublicKey(publicKeyString)
+                // const publicKeyObject = createPublicKey(publicKeyString)
                 // create Token Pair
-                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKeyObject, privateKey)
+                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
 
                 return {
                     code: "xxx",

@@ -6,13 +6,13 @@ const crypto = require('crypto');
 
 const createTokenPairs = async (payload, publicKey, privateKey) => {
     try {
-        const accessToken = JWT.sign(payload, privateKey, {
-            algorithm: "RS256",
+        const accessToken = JWT.sign(payload, publicKey, {
+            algorithm: "HS256",
             expiresIn: "2 days"
         })
 
         const refreshToken = JWT.sign(payload, privateKey, {
-            algorithm: "RS256",
+            algorithm: "HS256",
             expiresIn: "7 days"
         })
 
@@ -23,7 +23,6 @@ const createTokenPairs = async (payload, publicKey, privateKey) => {
                 console.log(`decode verify::`, decode)
             }
         })
-
 
         return { accessToken, refreshToken }
     } catch (error) {
