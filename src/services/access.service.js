@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt")
 const { generateKeyPairSync } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
+const { getInfoShopData } = require("../utils");
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -80,7 +81,7 @@ class AccessService {
                 return {
                     code: "xxx",
                     metadata: {
-                        shop: newShop,
+                        shop: getInfoShopData({ fields: ["_id", "name", "email"], object: newShop }),
                         tokens
                     }
                 }
