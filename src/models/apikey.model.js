@@ -7,6 +7,7 @@ const COLLECTION_NAME = "Apikeys"
 const DOCUMENT_NAME = "Apikey"
 
 var apikeySchema = new Schema({
+    // key for apikey
     key: {
         type: String,
         required: true,
@@ -15,10 +16,12 @@ var apikeySchema = new Schema({
         //     return randomBytes(20).toString("hex")
         // }
     },
+    // to indicate this key is working or not
     status: {
         type: Boolean,
         default: true
     },
+    
     permissions: {
         type: [String],
         required: true,
