@@ -2,7 +2,7 @@
 @url_dev =  http://localhost:3052/v1/api
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: chibaotosan 
+x-api-key: 6838f6f19943dc22029f87f0a81ab5c5c17af752 
 
 {
     "name": "Shop TIPS",
