@@ -6,6 +6,11 @@ const compression = require("compression");
 const app = express(); // used to initialize an instance of express
 
 //TODO: init middleware
+// ? Convert Json into JavaScript object
+app.use(express.json());
+// ? parse incoming URL-encoded form data into req.body
+app.use(express.urlencoded({ extended: true }));
+
 //?: morgan is used to log whenever users do requests
 // morgan have 5 modes
 /*
@@ -49,14 +54,7 @@ app.use(compression())
 require("./dbs/init.mongodb")
 
 //TODO: init routers
-app.get("/", (req, res, next) => {
-    const stringCompress = "Hello Fan";
-
-    return res.status(200).json({
-        message: "Welcome ...",
-        metadata: stringCompress.repeat(10000)
-    })
-})
+app.use("", require("./routes"))
 
 //TODO: handle errors
 
