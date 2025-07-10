@@ -8,7 +8,7 @@ const HEADER = {
 }
 
 // this is middleware
-const apiKey = async (req, res, next) => {
+const checkApiKey = async (req, res, next) => {
     try {
         // check if api key presents in header
         const key = req.header[HEADER.API_KEY]
@@ -31,8 +31,29 @@ const apiKey = async (req, res, next) => {
     } catch (error) {
         console.error(error)
     }
-} 
+}
+
+const checkPermission = (permission) => {
+    return (req, res, next) => {
+        // check if permissions are present
+        if (!req.objKey.permissions) {
+            return res.status(403).json({
+                message: "Permissions denied"
+            })
+        }
+        // check if permissions are valid
+        const validPermissions = req.objKey.permissions.includes(permission)
+        if (!validPermissions) {
+            return res.status(403).json({
+                message: "Permissions denied"
+            })
+        } else {
+            return next()
+        }
+    }
+}
 
 module.exports = {
-    apiKey
+    checkApiKey,
+    checkPermission
 }
