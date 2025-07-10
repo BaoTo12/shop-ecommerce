@@ -17,7 +17,6 @@ const RoleShop = {
 
 class AccessService {
     static signUp = async ({ name, email, password }) => {
-        a
         //TODO: check email whether it exists
         // when we use shopModel.findOne({ email }) --> mongoose wraps data in something called a Mongoose document 
         // This Mongoose document is a special object that has methods attached to it. 
