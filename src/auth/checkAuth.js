@@ -11,7 +11,7 @@ const HEADER = {
 const checkApiKey = async (req, res, next) => {
     try {
         // check if api key presents in header
-        const key = req.header[HEADER.API_KEY]
+        const key = req.headers[HEADER.API_KEY]?.toString()
         if (!key) {
             return res.status(403).json({
                 message: "Forbidden Error"
@@ -53,7 +53,14 @@ const checkPermission = (permission) => {
     }
 }
 
+const asyncHandler = fn => {
+    return (req, res, next) => {
+        fn(req, res, next).catch(next)
+    }
+}
+
 module.exports = {
     checkApiKey,
-    checkPermission
+    checkPermission,
+    asyncHandler
 }

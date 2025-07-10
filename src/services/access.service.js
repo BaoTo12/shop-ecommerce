@@ -6,6 +6,7 @@ const { randomBytes, generateKeyPairSync } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
 const { createTokenPairs, createPublicKey } = require("../auth/authUtils");
 const { getInfoShopData } = require("../utils");
+const { BadRequestError } = require("../core/error.response");
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -16,90 +17,79 @@ const RoleShop = {
 
 class AccessService {
     static signUp = async ({ name, email, password }) => {
-        try {
-            //TODO: check email whether it exists
-            // when we use shopModel.findOne({ email }) --> mongoose wraps data in something called a Mongoose document 
-            // This Mongoose document is a special object that has methods attached to it. 
-            /*
-                shop.status = 'active'  // Change a field
-                await shop.save()       // Save changes back to database
-                shop.toJSON()          // Convert to plain object
-                shop.isModified('status')  // Check if a field was changed
-            */
-            // ? When you add .lean() to your query, you're telling Mongoose "I don't need all those extra features, just give me 
-            // ? the raw data." The result is a plain JavaScript object that looks exactly like what's stored in MongoDB, but without any of the Mongoose magic attached.
-            const holderShop = await shopModel.findOne({ email }).lean()
-            if (holderShop) {
+        //TODO: check email whether it exists
+        // when we use shopModel.findOne({ email }) --> mongoose wraps data in something called a Mongoose document 
+        // This Mongoose document is a special object that has methods attached to it. 
+        /*
+            shop.status = 'active'  // Change a field
+            await shop.save()       // Save changes back to database
+            shop.toJSON()          // Convert to plain object
+            shop.isModified('status')  // Check if a field was changed
+        */
+        // ? When you add .lean() to your query, you're telling Mongoose "I don't need all those extra features, just give me 
+        // ? the raw data." The result is a plain JavaScript object that looks exactly like what's stored in MongoDB, but without any of the Mongoose magic attached.
+        const holderShop = await shopModel.findOne({ email }).lean()
+        if (holderShop) {
+            throw new BadRequestError("Error: Shop already Registered", 400)
+        }
+        // TODO: Create shop
+        const hashedPassword = await bcrypt.hash(password, 10)
+        console.log({ hashedPassword });
+
+        const newShop = await shopModel.create({
+            email,
+            password: hashedPassword,
+            name,
+            roles: [RoleShop.SHOP]
+        })
+
+        if (newShop) {
+            // generate token for new registered user
+            // Using asymmetric key
+            // Create privateKey is used for signing key, publicKey is used for verifying key
+            // const { privateKey, publicKey } = generateKeyPairSync("rsa", {
+            //     modulusLength: 4096, // Key size in bits → security/performance tradeoff
+            //     publicKeyEncoding: {
+            //         type: "pkcs1", // Format standard: “Subject Public Key Info” --> spki
+            //         // Public Key Crypto Standard
+            //         format: "pem", // Encoding container: Base64 with header/footer
+            //     },
+            //     privateKeyEncoding: {
+            //         type: "pkcs1",  // Format: generic container including algorithm info
+            //         format: "pem", // Base64 again
+            //     }
+            // })
+
+            const privateKey = randomBytes(64).toString("hex")
+            const publicKey = randomBytes(64).toString("hex")
+
+            const keyStore = await KeyTokenService.createKeyToken({
+                userId: newShop._id,
+                publicKey,
+                privateKey
+            });
+
+            if (!keyStore) {
                 return {
                     code: "xxx",
-                    message: "Shop already registered"
+                    message: "KeyStore error!!"
                 }
             }
-            // TODO: Create shop
-            const hashedPassword = await bcrypt.hash(password, 10)
-            console.log({ hashedPassword });
+            // const publicKeyObject = createPublicKey(publicKeyString)
+            // create Token Pair
+            const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
 
-            const newShop = await shopModel.create({
-                email,
-                password: hashedPassword,
-                name,
-                roles: [RoleShop.SHOP]
-            })
-
-            if (newShop) {
-                // generate token for new registered user
-                // Using asymmetric key
-                // Create privateKey is used for signing key, publicKey is used for verifying key
-                // const { privateKey, publicKey } = generateKeyPairSync("rsa", {
-                //     modulusLength: 4096, // Key size in bits → security/performance tradeoff
-                //     publicKeyEncoding: {
-                //         type: "pkcs1", // Format standard: “Subject Public Key Info” --> spki
-                //         // Public Key Crypto Standard
-                //         format: "pem", // Encoding container: Base64 with header/footer
-                //     },
-                //     privateKeyEncoding: {
-                //         type: "pkcs1",  // Format: generic container including algorithm info
-                //         format: "pem", // Base64 again
-                //     }
-                // })
-
-                const privateKey = randomBytes(64).toString("hex")
-                const publicKey = randomBytes(64).toString("hex")
-
-                const keyStore = await KeyTokenService.createKeyToken({
-                    userId: newShop._id,
-                    publicKey,
-                    privateKey
-                });
-
-                if (!keyStore) {
-                    return {
-                        code: "xxx",
-                        message: "KeyStore error!!"
-                    }
-                }
-                // const publicKeyObject = createPublicKey(publicKeyString)
-                // create Token Pair
-                const tokens = await createTokenPairs({ userId: newShop._id, email }, publicKey, privateKey)
-
-                return {
-                    code: "xxx",
-                    metadata: {
-                        shop: getInfoShopData({ fields: ["_id", "name", "email"], object: newShop }),
-                        tokens
-                    }
-                }
-            }
             return {
                 code: "xxx",
-                metadata: null
+                metadata: {
+                    shop: getInfoShopData({ fields: ["_id", "name", "email"], object: newShop }),
+                    tokens
+                }
             }
-        } catch (error) {
-            return {
-                code: "xxx",
-                message: error.message,
-                status: "error"
-            }
+        }
+        return {
+            code: "xxx",
+            metadata: null
         }
     }
 }
