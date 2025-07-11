@@ -4,9 +4,9 @@ const shopModel = require("../models/shop.model")
 const bcrypt = require("bcrypt")
 const { randomBytes } = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
-const { createTokenPairs } = require("../auth/authUtils");
+const { createTokenPairs, verifyJWT } = require("../auth/authUtils");
 const { getInfoShopData } = require("../utils");
-const { BadRequestError, AuthFailureError } = require("../core/error.response");
+const { BadRequestError, AuthFailureError, ForbiddenError } = require("../core/error.response");
 const { findByEmail } = require("./shop.service");
 
 const RoleShop = {
@@ -16,8 +16,54 @@ const RoleShop = {
     ADMIN: "ADMIN"
 }
 
-
 class AccessService {
+
+    static handleRefreshToken = async (refreshToken) => {
+        // check this refreshToken in blackList in keyTokenSchema refreshTokenUsed
+        const foundRefreshToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken);
+        // if this refresh token is in blacklist
+        if (foundRefreshToken) {
+            // find the user relates to this refresh token
+            const { userId, email } = await verifyJWT(foundRefreshToken, foundRefreshToken.privateKey)
+            console.log("[1]--", { userId, email });
+            // delete all keys related to this uerId
+            await KeyTokenService.deleteKeyByUserId(userId)
+            throw new ForbiddenError("Refresh Token has been used --> ERROR")
+        }
+        // if refreshToken is not used --> look for refreshToken in database to check this is our token
+        const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
+        if (holderToken) {
+            // verify refreshToken is valid or not
+            const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey)
+            console.log("[2]--", { userId, email });
+            // check UserId
+            const foundShop = await findByEmail({ email })
+            if (!foundShop) throw new AuthFailureError("Shop is not registered")
+
+            // if found we create a new key pairs and put the old refresh token ito refreshTokenUsed
+            const tokens = await createTokenPairs({
+                userId: foundShop._id,
+                email
+            }, holderToken.publicKey, holderToken.privateKey)
+
+
+            await holderToken.updateOne({
+                $set: {
+                    refreshToken: tokens.refreshToken
+                },
+                $addToSet: {
+                    refreshTokensUsed: refreshToken
+                }
+            })
+            return {
+                userId: { userId, email },
+                tokens
+            }
+        } else {
+            throw new ForbiddenError("Refresh Token is not found while gaining access token")
+        }
+    }
+
     static logout = async (keyStore) => {
         const deletedKey = await KeyTokenService.removeKeyById(keyStore._id)
         console.log({ deletedKey });
