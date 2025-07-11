@@ -1,3 +1,5 @@
+"use strict"
+
 const ProductService = require("../services/product.service")
 const { SuccessResponse } = require('../core/success.response')
 class ProductController {
