@@ -150,3 +150,9 @@ await User.updateOne(
     phần thứ ba là JWS Signature được encode
     -->  Toàn bộ chuỗi này tuân theo JWS Compact Serialization format.
 
+### Mongoose Middleware
+- Def: Middleware in mongoose allows you to execute code at specific points during document operations
+- Pre middleware runs before the operation executes
+- Post middleware runs after the operation completes successfully
+- Document middleware operates on individual documents and includes hooks for save, remove, updateOne, deleteOne, and init
+- Query middleware operates on queries themselves and includes hooks for find, findOne, findOneAndUpdate, deleteOne, deleteMany, and others.
