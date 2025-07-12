@@ -1,4 +1,4 @@
-const { product, clothing, electronics } = require("../models/product.model")
+const { product, clothing, electronics, furniture } = require("../models/product.model")
 const { BadRequestError } = require("../core/error.response")
 // Define Factory Class
 class ProductFactory {
@@ -67,6 +67,23 @@ class Electronics extends Product {
 
         const newProduct = await super.createProduct(newElectronics._id)
         if (!newProduct) throw new BadRequestError("Error While Create New Product::[Inside Electronics Class]")
+
+        return newProduct;
+    }
+}
+
+// define Furniture Class
+class Furniture extends Product {
+    async createProduct() {
+        const newFurniture = await furniture.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        })
+        if (!newFurniture)
+            throw new BadRequestError("Error While Creating New Furniture Product")
+
+        const newProduct = await super.createProduct(newFurniture._id)
+        if (!newProduct) throw new BadRequestError("Error While Create New Product::[Inside Furniture Class]")
 
         return newProduct;
     }
