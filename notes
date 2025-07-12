@@ -1,6 +1,115 @@
 ### The difference between .env and config folder
+
 - Config folder is used for declaring the settings for our application, can store multiple forms like Json, XML
 - .env is used to store sensitive information, and declare global environment variables
 
-### Learn to set up .evn with 3 levels: local, 
+### MongoDB Update Operators
 
+- $set is used to set values to fields. The key insight with $set is that it handles both existing and non-existing fields gracefully. If the field exists, it overwrites it.
+
+```
+await User.updateOne(
+  { _id: userId },
+  {
+    $set: {
+      name: 'John',
+      'profile.bio': 'Updated bio',  // Notice the dot notation for nested fields
+      updatedAt: new Date(),
+      status: 'active'
+    }
+  }
+);
+```
+
+- $inc is used for for numerical changes and It's atomic. The beauty of $inc is that if the field doesn't exist, MongoDB treats it as zero and then applies the increment.
+
+```
+await Post.updateOne(
+  { _id: postId },
+  {
+    $inc: {
+      views: 1,           // Increment by 1
+      score: 5,           // Add 5 to current score
+      downvotes: -1       // Subtract 1 (negative increment)
+    }
+  }
+);
+```
+
+#### Array Operations: $push, $addToSet, and $pull
+
+- $push simply appends items to an array.
+
+```
+// Basic push - adds one item
+await User.updateOne(
+  { _id: userId },
+  { $push: { tags: 'developer' } }
+);
+
+// Push multiple items at once using $each
+await User.updateOne(
+  { _id: userId },
+  { $push: { tags: { $each: ['frontend', 'backend', 'fullstack'] } } }
+);
+
+// Push with additional modifiers
+await User.updateOne(
+  { _id: userId },
+  {
+    $push: {
+      recentActivities: {
+        $each: [
+          { action: 'login', timestamp: new Date() },
+          { action: 'profile_update', timestamp: new Date() }
+        ],
+        $slice: -10  // Keep only the last 10 activities
+      }
+    }
+  }
+);
+```
+
+--> $slice modifier is particularly useful - it automatically trims the array to keep only a certain number of elements.
+
+- $addToSet is like a smart version of $push - it only adds items if they're not already present.
+
+```
+await User.updateOne(
+  { _id: userId },
+  { $addToSet: { tags: 'developer' } }  // Only adds if 'developer' isn't already there
+);
+
+// Add multiple unique items
+await User.updateOne(
+  { _id: userId },
+  { $addToSet: { skills: { $each: ['JavaScript', 'Node.js', 'JavaScript'] } } }
+  // 'JavaScript' will only be added once, even though it appears twice
+);
+```
+
+- $pull removes all instances of items that match the specified condition
+
+```
+// Remove simple values
+await User.updateOne(
+  { _id: userId },
+  { $pull: { tags: 'outdated-tag' } }
+);
+
+// Remove using conditions (for arrays of objects)
+await User.updateOne(
+  { _id: userId },
+  {
+    $pull: {
+      certifications: { year: { $lt: 2020 } }  // Remove certifications older than 2020
+    }
+  }
+);
+
+// Remove multiple values
+await User.updateOne(
+  { _id: userId },
+  { $pull: { tags: { $in: ['old-tag', 'deprecated-tag'] } } }
+);
+```
