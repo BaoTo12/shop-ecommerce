@@ -2,15 +2,20 @@ const { product, clothing, electronics, furniture } = require("../models/product
 const { BadRequestError } = require("../core/error.response")
 // Define Factory Class
 class ProductFactory {
+
+
+    static productRegistry = {}
+
+    static registeredProductType(type, classRef) {
+        ProductFactory.productRegistry[type] = classRef
+    }
+
     static async createProduct(type, payload) {
-        switch (type) {
-            case "Electronics":
-                return new Electronics(payload).createProduct()
-            case "Clothing":
-                return new Clothing(payload).createProduct()
-            default:
-                throw new BadRequestError("Cannot find product with type:" + type)
-        }
+        // get class by type
+        const ProductClass = ProductFactory.productRegistry[type]
+        if (!ProductClass) throw new BadRequestError("Cannot find product with type:" + type)
+
+        return new ProductClass(payload).createProduct()
     }
 }
 
@@ -88,5 +93,10 @@ class Furniture extends Product {
         return newProduct;
     }
 }
+
+// register product 
+ProductFactory.registeredProductType("Electronics", Electronics)
+ProductFactory.registeredProductType("Clothing", Clothing)
+ProductFactory.registeredProductType("Furniture", Furniture)
 
 module.exports = ProductFactory
