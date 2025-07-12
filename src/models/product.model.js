@@ -17,6 +17,7 @@ const productSchema = new Schema({
     product_description: {
         type: String,
     },
+    product_slug: String,
     product_price: {
         type: Number,
         required: true
@@ -37,6 +38,31 @@ const productSchema = new Schema({
     product_attributes: {
         type: Schema.Types.Mixed,
         required: true
+    },
+    product_ratingsAverage: {
+        type: Number,
+        default: 4.5,
+        min: [1, "Rating must be above 1.0"],
+        min: [5, "Rating must be below 5.0"],
+        set: (val) => Math.round(val * 10) / 10
+    },
+    product_variations: {
+        type: Array,
+        default: []
+    },
+    // thess fields are not used for select so we name it without prefix schema name
+    isDraft: {
+        type: Boolean,
+        default: true,
+        index: true,
+        // when mongoose does query this field will be ignored
+        select: false
+    },
+    isPublish: {
+        type: Boolean,
+        default: false,
+        index: true,
+        select: false
     }
 }, {
     timestamps: true,
