@@ -11,7 +11,7 @@ const HEADER = {
     API_KEY: "x-api-key",
     CLIENT_ID: "x-client-id",
     AUTHORIZATION: "authorization",
-    REFRESH_TOKEN: "refreshToken"
+    REFRESH_TOKEN: "x-rtoken-id"
 }
 
 
@@ -83,6 +83,7 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
     const keyStore = await findByUserId(userId);
     if (!keyStore) throw new NotFoundError("KeyStore not found when authentication")
     // 3.1 - verify refresh Token
+
     if (req.headers[HEADER.REFRESH_TOKEN]) {
         try {
             // get refresh Token
