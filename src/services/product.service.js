@@ -31,19 +31,25 @@ class Product {
         this.product_quantity = product_quantity
     }
     // create new product
-    async createProduct() {
-        return await product.create(this)
+    async createProduct(product_id) {
+        return await product.create({
+            ...this,
+            _id: product_id
+        })
     }
 }
 
 // define Clothing Class
 class Clothing extends Product {
     async createProduct() {
-        const newClothing = await clothing.create(this.product_attributes)
+        const newClothing = await clothing.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        })
         if (!newClothing)
             throw new BadRequestError("Error While Creating New Clothing Product")
 
-        const newProduct = await super.createProduct()
+        const newProduct = await super.createProduct(newClothing._id)
         if (!newProduct) throw new BadRequestError("Error While Create New Product::[Inside Clothing Class]")
 
         return newProduct;
@@ -52,11 +58,14 @@ class Clothing extends Product {
 // define Electronics Class
 class Electronics extends Product {
     async createProduct() {
-        const newElectronics = await electronics.create(this.product_attributes)
+        const newElectronics = await electronics.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        })
         if (!newElectronics)
             throw new BadRequestError("Error While Creating New Electronics Product")
 
-        const newProduct = await super.createProduct()
+        const newProduct = await super.createProduct(newElectronics._id)
         if (!newProduct) throw new BadRequestError("Error While Create New Product::[Inside Electronics Class]")
 
         return newProduct;

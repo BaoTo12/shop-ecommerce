@@ -52,6 +52,10 @@ const clothingSchema = new Schema({
     },
     size: String,
     material: String,
+    product_shop: {
+        type: Schema.Types.ObjectId,
+        ref: "Shop" // document name
+    },
 }, {
     collection: "Clothes",
     timestamps: true
@@ -65,6 +69,10 @@ const electronicsSchema = new Schema({
     },
     model: String,
     color: String,
+    product_shop: {
+        type: Schema.Types.ObjectId,
+        ref: "Shop" // document name
+    },
 }, {
     collection: "Clothes",
     timestamps: true
@@ -75,5 +83,5 @@ const electronicsSchema = new Schema({
 module.exports = {
     product: model(DOCUMENT_NAME, productSchema),
     clothing: model("Clothing", clothingSchema),
-    electronics: model("Electronics", electronicsSchema )
+    electronics: model("Electronics", electronicsSchema)
 }
