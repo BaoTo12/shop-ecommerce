@@ -113,3 +113,40 @@ await User.updateOne(
   { $pull: { tags: { $in: ['old-tag', 'deprecated-tag'] } } }
 );
 ```
+
+### JWT, JWS, JWE
+
+- JWT là một loại của bộ tiêu chuẩn JOSE (JSON Object Signing and Encryption)
+- JOSE bao gồm năm tiêu chuẩn chính. 
+    + JWS (JSON Web Signature) giúp đảm bảo tính toàn vẹn và xác thực nguồn gốc dữ liệu
+    + JWE (JSON Web Encryption) mã hóa dữ liệu để đảm bảo tính bí mật
+    + JWK (JSON Web Key) định nghĩa cách biểu diễn khóa mật mã trong JSON
+    + JWA (JSON Web Algorithms) liệt kê các thuật toán mật mã được hỗ trợ. 
+    + JWT (JSON Web Token) là cách thức cụ thể để sử dụng các tiêu chuẩn trên tạo ra token.
+
+- Hiểu rõ hệ thống phân cấp: JOSE → JWS → JWT:
+    JOSE như một "gia đình lớn" của các tiêu chuẩn bảo mật. Trong gia đình này, JWS là một "thành viên" cung cấp chức năng digital signature. Còn JWT là một "ứng dụng cụ thể" của JWS.
+    + JOSE (JSON Object Signing and Encryption) is a framework that provides a set of specifications for signing and encrypting data using JSON-based structures. It encompasses several standards like JWS, JWE (JSON Web Encryption), JWK (JSON Web Key), and JWKS (JSON Web Key Set)
+    + JWS documentation says is a specification within JOSE that focuses on digitally signing JSON data.
+    + JWT is an implementation
+- JWT (JSON Web Token) components
+    + JOSE Header or JWS Header: Thường bao gồm các thành phần như sau
+        alg(algorithm) - Algorithm - JWA (JSON Web Algorithms)
+        typ(type) - để xác định đây là JSON Web Token
+        kid(keyID) - giúp xác định khóa nào được sử dụng khi có nhiều khóa trong hệ thống
+        crit(critical) - liệt kê các extension headers mà bên nhận phải hiểu để xử lý token đúng cách
+    + Payload: claims
+        subject (chủ thể)
+        "iss" (issuer - người phát hành)
+        "aud" (audience - đối tượng nhận)
+        "exp" (expiration time - thời gian hết hạn)
+        "nbf" (not before - không hợp lệ trước thời điểm này)
+        "iat" (issued at - thời điểm phát hành)
+        "jti" (JWT ID - định danh duy nhất)
+    + Signature - JWS Signature
+    Ví dụ: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    Phần đầu tiên là JWS Header được encode
+    phần thứ hai là JWS Payload được encode,
+    phần thứ ba là JWS Signature được encode
+    -->  Toàn bộ chuỗi này tuân theo JWS Compact Serialization format.
+
