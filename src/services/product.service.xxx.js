@@ -1,5 +1,6 @@
 const { product, clothing, electronics, furniture } = require("../models/product.model")
 const { BadRequestError } = require("../core/error.response")
+const { findAllDraftProductForShop } = require("../models/repositories/product.repo")
 // Define Factory Class
 class ProductFactory {
 
@@ -17,6 +18,15 @@ class ProductFactory {
 
         return new ProductClass(payload).createProduct()
     }
+    // QUERY
+    // query list of draft products
+    static async findAllDraftProductForShop({ product_shop, limit = 50, skip = 0 }) {
+        const query = { product_shop, isDraft: true }
+
+        return await findAllDraftProductForShop({ query, skip, limit })
+    }
+
+    // END QUERY
 }
 
 // define Base Class

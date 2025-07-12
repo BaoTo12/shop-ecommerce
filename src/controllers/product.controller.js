@@ -13,5 +13,14 @@ class ProductController {
             })
         }).send(res)
     }
+
+    // QUERY
+    getAllDraftProductForShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get All Draft Product For A Shop Successfully!',
+            metadata: await ProductServiceV2.findAllDraftProductForShop({ product_shop: req.user.userId })
+        }).send(res)
+    }
+    // END QUERY
 }
 module.exports = new ProductController()
