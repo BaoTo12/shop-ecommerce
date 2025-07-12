@@ -5,9 +5,9 @@ class ProductFactory {
     static async createProduct(type, payload) {
         switch (type) {
             case "Electronics":
-                return new Electronics(payload)
+                return new Electronics(payload).createProduct()
             case "Clothing":
-                return new Clothing(payload)
+                return new Clothing(payload).createProduct()
             default:
                 throw new BadRequestError("Cannot find product with type:" + type)
         }
