@@ -52,10 +52,23 @@ const unPublishProductByShop = async ({ product_shop, product_id }) => {
     return savedShop;
 }
 
-
+const searchProductByUser = async ({ keySearch }) => {
+    const regexSearch = new RegExp(keySearch)
+    const results = await product.find(
+        {
+            isPublish: true,
+            $text: { $search: regexSearch }
+        },
+        { score: { $meta: "textScore" } }
+    )
+        .sort({ score: { $meta: "textScore" } })
+        .lean()
+    return results
+}
 module.exports = {
     findAllDraftProductForShop,
     publishProductByShop,
     findAllPublicProductForShop,
-    unPublishProductByShop
+    unPublishProductByShop,
+    searchProductByUser
 }

@@ -3,8 +3,9 @@ const { BadRequestError } = require("../core/error.response")
 const {
     findAllDraftProductForShop,
     publishProductByShop,
-    findAllPublicProductForShop, 
-    unPublishProductByShop} = require("../models/repositories/product.repo")
+    findAllPublicProductForShop,
+    unPublishProductByShop,
+    searchProductByUser } = require("../models/repositories/product.repo")
 // Define Factory Class
 class ProductFactory {
 
@@ -47,6 +48,11 @@ class ProductFactory {
 
         return await findAllPublicProductForShop({ query, skip, limit })
     }
+    // search Product
+    static async getListSearchProduct({ keySearch }) {
+        return await searchProductByUser({ keySearch })
+    }
+
     // END QUERY
 }
 

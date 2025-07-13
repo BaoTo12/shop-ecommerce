@@ -70,6 +70,11 @@ const productSchema = new Schema({
     collection: COLLECTION_NAME
 })
 
+// create index for search
+// Performs full-text search across string fields
+// Uses an inverted index to map terms to documents for fast, scalable lookups.
+productSchema.index({ product_name: "text", product_description: "text" })
+
 // product middleware
 productSchema.pre("save", function (next) {
     this.product_slug = slugify(this.product_name, { lower: true })
