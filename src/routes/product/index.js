@@ -9,9 +9,10 @@ const router = express.Router()
 
 // authentication
 router.use(authenticationV2)
-// logout
+
 router.post("", asyncHandler(productController.createProduct))
 router.post("/publish/:id", asyncHandler(productController.publishProductByShop))
+router.post("/unpublish/:id", asyncHandler(productController.unPublishProductByShop))
 
 // QUERY
 router.get("/draft/all", asyncHandler(productController.getAllDraftProductForShop))
