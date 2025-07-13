@@ -6,11 +6,14 @@ const { Types } = require("mongoose")
 const queryProduct = async ({ query = {}, limit, skip }) => {
     return await product
         .find(query)
+        // populate method performs what's essentially a join operation between collections
         .populate("product_shop", "name email -_id")
+        // This sorts the results by the updateAt field in descending order
         .sort({ updateAt: -1 })
         .skip(skip)
         .limit(limit)
         .lean()
+        // This explicitly executes the query and returns a Promise
         .exec()
 }
 
