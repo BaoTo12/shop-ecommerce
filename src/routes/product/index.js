@@ -14,6 +14,7 @@ router.post("", asyncHandler(productController.createProduct))
 
 // QUERY
 router.get("/draft/all", asyncHandler(productController.getAllDraftProductForShop))
+router.get("/publish/all", asyncHandler(productController.getAllPublishProductForShop))
 // END QUERY
 
 module.exports = router

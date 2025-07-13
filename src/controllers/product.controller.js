@@ -15,10 +15,18 @@ class ProductController {
     }
 
     // QUERY
+    // Get All Draft Products
     getAllDraftProductForShop = async (req, res, next) => {
         new SuccessResponse({
             message: 'Get All Draft Product For A Shop Successfully!',
             metadata: await ProductServiceV2.findAllDraftProductForShop({ product_shop: req.user.userId })
+        }).send(res)
+    }
+    // Get All Publish Products
+    getAllPublishProductForShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get All Publish Product For A Shop Successfully!',
+            metadata: await ProductServiceV2.findAllPublishProductForShop({ product_shop: req.user.userId })
         }).send(res)
     }
     // END QUERY

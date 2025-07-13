@@ -1,8 +1,9 @@
 "use strict"
 
 const { product, electronics, clothing, furniture } = require("../product.model")
+const { Types } = require("mongoose")
 
-const findAllDraftProductForShop = async ({ query = {}, limit, skip }) => {
+const queryProduct = async ({ query = {}, limit, skip }) => {
     return await product
         .find(query)
         .populate("product_shop", "name email -_id")
@@ -13,7 +14,31 @@ const findAllDraftProductForShop = async ({ query = {}, limit, skip }) => {
         .exec()
 }
 
+const findAllDraftProductForShop = async ({ query = {}, limit, skip }) => {
+    return await queryProduct({ query, limit, skip })
+}
+
+
+const findAllPublicProductForShop = async ({ query = {}, limit, skip }) => {
+    return await queryProduct({ query, limit, skip })
+}
+
+const publishProductByShop = async ({ product_shop, product_id }) => {
+    const foundShop = await product.findOne({
+        product_shop: new Types.ObjectId(product_shop),
+        _id: new Types.ObjectId(product_id),
+    })
+    if (!foundShop) throw new null
+    foundShop.isDraft = false;
+    foundShop.isPublish = true;
+
+    const savedShop = await foundShop.save();
+    return savedShop;
+}
+
 
 module.exports = {
-    findAllDraftProductForShop
+    findAllDraftProductForShop,
+    publishProductByShop,
+    findAllPublicProductForShop
 }
