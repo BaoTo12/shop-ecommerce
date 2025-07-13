@@ -23,11 +23,11 @@ class ProductFactory {
     }
 
     // PUT
-    // static async publishProductByShop({ product_shop, product_id }) {
+    static async publishProductByShop({ product_shop, product_id }) {
 
-    //     return await publishProductByShop({ product_shop, product_id })
+        return await publishProductByShop({ product_shop, product_id })
 
-    // }
+    }
     // END PUT
 
 

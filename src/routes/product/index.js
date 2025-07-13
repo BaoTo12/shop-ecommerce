@@ -11,6 +11,7 @@ const router = express.Router()
 router.use(authenticationV2)
 // logout
 router.post("", asyncHandler(productController.createProduct))
+router.post("/publish/:id", asyncHandler(productController.publishProductByShop))
 
 // QUERY
 router.get("/draft/all", asyncHandler(productController.getAllDraftProductForShop))

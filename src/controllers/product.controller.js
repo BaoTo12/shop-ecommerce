@@ -14,6 +14,18 @@ class ProductController {
         }).send(res)
     }
 
+    // PUT
+    publishProductByShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Publish Product Successfully!',
+            metadata: await ProductServiceV2.publishProductByShop({
+                product_id: req.params.id,
+                product_shop: req.user.userId
+            })
+        }).send(res)
+    }
+    // END PUT
+
     // QUERY
     // Get All Draft Products
     getAllDraftProductForShop = async (req, res, next) => {
