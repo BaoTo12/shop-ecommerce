@@ -1,5 +1,6 @@
 "use strict"
 
+const { getSelectedFields } = require("../../utils")
 const { product, electronics, clothing, furniture } = require("../product.model")
 const { Types } = require("mongoose")
 
@@ -65,10 +66,30 @@ const searchProductByUser = async ({ keySearch }) => {
         .lean()
     return results
 }
+
+
+const findAllProducts = async ({ limit, sort, page = 1, filter, select }) => {
+    const skip = (page - 1) * limit;
+    // The -1 in mongoose is a sorting directive that tells MongoDB to sort documents in descending order, while 1 would sort in ascending order. 
+    const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+    const results = await product
+        .find(filter)
+        .sort(sortBy)
+        .skip(skip)
+        .limit(limit)
+        // The .select() method in Mongoose controls which fields are returned in your query results.
+        .select(getSelectedFields(select))
+        .lean()
+
+    return results
+}
+
+
 module.exports = {
     findAllDraftProductForShop,
     publishProductByShop,
     findAllPublicProductForShop,
     unPublishProductByShop,
-    searchProductByUser
+    searchProductByUser,
+    findAllProducts
 }

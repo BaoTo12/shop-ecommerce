@@ -5,7 +5,8 @@ const {
     publishProductByShop,
     findAllPublicProductForShop,
     unPublishProductByShop,
-    searchProductByUser } = require("../models/repositories/product.repo")
+    searchProductByUser,
+    findAllProducts } = require("../models/repositories/product.repo")
 // Define Factory Class
 class ProductFactory {
 
@@ -15,8 +16,17 @@ class ProductFactory {
     static registeredProductType(type, classRef) {
         ProductFactory.productRegistry[type] = classRef
     }
-
+    // create
     static async createProduct(type, payload) {
+        // get class by type
+        const ProductClass = ProductFactory.productRegistry[type]
+        if (!ProductClass) throw new BadRequestError("Cannot find product with type:" + type)
+
+        return new ProductClass(payload).createProduct()
+    }
+
+    // update
+    static async updateProduct(type, payload) {
         // get class by type
         const ProductClass = ProductFactory.productRegistry[type]
         if (!ProductClass) throw new BadRequestError("Cannot find product with type:" + type)
@@ -52,7 +62,17 @@ class ProductFactory {
     static async getListSearchProduct({ keySearch }) {
         return await searchProductByUser({ keySearch })
     }
+    // find All Products
+    static async findAllProducts({ limit = 50, sort = "ctime", page = 1, filter = { isPublish: true } }) {
+        return await findAllProducts({
+            limit, sort, page, filter,
+            select: ["product_name", "product_price", "product_thumb"]
+        })
+    }
+    // find product
+    // static async findProduct() {
 
+    // }
     // END QUERY
 }
 
