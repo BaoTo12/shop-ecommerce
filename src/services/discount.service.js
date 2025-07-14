@@ -66,7 +66,47 @@ class DiscountService {
 
     // }
 
-    
+    static async getAllProductsWithDiscountCode({
+        code, shopId, userId, limit, page
+    }) {
+        // check whether discount exists
+        const foundDiscount = await discount.findOne({
+            discount_code: code,
+            discount_shopId: convertToObjectId(shopId)
+        }).lean()
+
+        if (!foundDiscount || !foundDiscount.discount_is_active) {
+            throw new NotFoundError("Discount Does not exist!!")
+        }
+        // check what products this discount applied to
+        const { discount_applies_to, discount_product_ids } = foundDiscount;
+        let products;
+        if (discount_applies_to === "all") {
+            products = await findAllProducts({
+                filter: {
+                    product_shop: convertToObjectId(shopId),
+                    isPublish: true
+                },
+                limit: +limit,
+                page: +page,
+                sort: "ctime",
+                select: ["product_name"]
+            });
+        }
+        if (discount_applies_to === "specific") {
+            products = await findAllProducts({
+                filter: {
+                    _id: { $in: discount_product_ids },
+                    isPublish: true
+                },
+                limit: +limit,
+                page: +page,
+                sort: "ctime",
+                select: ["product_name"]
+            });
+        }
+        return products;
+    }
 }
 
 module.exports = DiscountService
