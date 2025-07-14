@@ -128,6 +128,7 @@ class Clothing extends Product {
     async updateProduct(product_id) {
         // remove all fields has falsy values\
         const objectParams = removeFalseField(this);
+
         // check where to update, if the payload has attributes object --> update both parent and child classes
         if (objectParams.product_attributes) {
             // update child
