@@ -22,7 +22,7 @@ class DiscountService {
             shopId, min_order_value, product_ids,
             applies_to, name, description,
             type, value, max_value, max_uses, uses_count,
-            max_uses_per_user
+            max_uses_per_user, users_used
         } = payload
 
         // validate date
