@@ -6,7 +6,8 @@ const {
     findAllPublicProductForShop,
     unPublishProductByShop,
     searchProductByUser,
-    findAllProducts } = require("../models/repositories/product.repo")
+    findAllProducts, 
+    findProduct} = require("../models/repositories/product.repo")
 // Define Factory Class
 class ProductFactory {
 
@@ -70,9 +71,9 @@ class ProductFactory {
         })
     }
     // find product
-    // static async findProduct() {
-
-    // }
+    static async findProduct({ product_id }) {
+        return await findProduct({product_id, unSelect: ["__v"]})
+    }
     // END QUERY
 }
 

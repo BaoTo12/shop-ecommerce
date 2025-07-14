@@ -10,7 +10,12 @@ const getSelectedFields = (select = []) => {
     return Object.fromEntries(select.map(field => [field, 1]))
 }
 
+const getUnSelectedFields = (select = []) => {
+    return Object.fromEntries(select.map(field => [field, 0]))
+}
+
 module.exports = {
     getInfoShopData,
-    getSelectedFields
+    getSelectedFields,
+    getUnSelectedFields
 }

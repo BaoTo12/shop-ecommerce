@@ -1,6 +1,6 @@
 "use strict"
 
-const { getSelectedFields } = require("../../utils")
+const { getSelectedFields, getUnSelectedFields } = require("../../utils")
 const { product, electronics, clothing, furniture } = require("../product.model")
 const { Types } = require("mongoose")
 
@@ -83,6 +83,11 @@ const findAllProducts = async ({ limit, sort, page = 1, filter, select }) => {
 
     return results
 }
+const findProduct = async ({ product_id, unSelect }) => {
+    return await product
+        .findById(product_id)
+        .select(getUnSelectedFields(unSelect))
+}
 
 
 module.exports = {
@@ -91,5 +96,6 @@ module.exports = {
     findAllPublicProductForShop,
     unPublishProductByShop,
     searchProductByUser,
-    findAllProducts
+    findAllProducts,
+    findProduct
 }
