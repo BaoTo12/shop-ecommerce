@@ -139,3 +139,66 @@ module.exports = {
     electronics: model("Electronics", electronicsSchema),
     furniture: model("Furniture", furnitureSchema)
 }
+
+
+// full-text search in mongodb
+//? Step1: Create Text Index
+// Single Field Text Index: db.collection.createIndex({ "title": "text" })
+
+// Multiple Field Text Index:
+// db.collection.createIndex({
+//     "title": "text",
+//     "description": "text",
+//     "content": "text"
+// })
+
+// Compound Text Index with Weights:
+// db.collection.createIndex({
+//     "title": "text",
+//     "description": "text"
+// }, {
+//     "weights": {
+//         "title": 10,      // Higher weight = higher relevance
+//         "description": 1
+//     }
+// })
+
+// ? Step 2: Basic Text Search Queries
+// Simple Word Search:
+// Find documents containing "mongodb"
+// db.collection.find({ $text: { $search: "mongodb" } })
+
+// Multiple Word Search (OR logic):
+// Find documents containing "mongodb" OR "database"
+// db.collection.find({ $text: { $search: "mongodb database" } })
+
+// Phrase Search:
+// Find documents containing the exact phrase "full text search"
+// db.collection.find({ $text: { $search: "\"full text search\"" } })
+
+// Exclusion Search:
+// Find documents containing "mongodb" but NOT "tutorial"
+// db.collection.find({ $text: { $search: "mongodb -tutorial" } })
+
+//? Step 3: Advanced Query Features
+// Relevance Scoring:
+// db.collection.find(
+//     { $text: { $search: "mongodb tutorial" } },
+//     { score: { $meta: "textScore" } }
+// ).sort({ score: { $meta: "textScore" } })
+
+// Language-Specific Search:
+// db.collection.find({
+//     $text: {
+//         $search: "tutorial",
+//         $language: "english"
+//     }
+// })
+
+// ! What is weight in mongoDB Search
+/*
+    Definition: Think of weight as a way to tell MongoDB "this field is more important than that field when someone searches."
+
+*/
+// ! Understanding Scoring in MongoDB Text Search
+// Scoring is MongoDB's way of answering the question "how well does this document match what the user is looking for?" 
