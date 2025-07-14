@@ -11,5 +11,6 @@ router.use(checkPermission("0000"))
 
 router.use(`/${process.env.API_VERSION}/api`, require("./access"))
 router.use(`/${process.env.API_VERSION}/api/product`, require("./product"))
+router.use(`${process.env.API_VERSION}/discount`, require("./discount"))
 
 module.exports = router

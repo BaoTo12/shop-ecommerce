@@ -1,0 +1,45 @@
+"use strict"
+
+const DiscountService = require("../services/discount.service")
+
+class DiscountController {
+    createDiscountCode = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Successful Code Generations',
+            metadata: await DiscountService.createDiscountCode({
+                ...req.body,
+                shopId: req.user.userId
+            })
+        })
+    }
+    getAllDiscountsByShopId = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get all discounts by shopId successfully',
+            metadata: await DiscountService.getAllDiscountsByShopId({
+                ...req.query,
+                shopId: req.user.userId
+            })
+        })
+    }
+
+    getDiscountAmount = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get Discount Amount Successfully',
+            metadata: await DiscountService.getDiscountAmount({
+                ...req.body,
+            })
+        })
+    }
+
+    getAllProductsWithDiscountCode = async (req, res, next) => {
+        return new SuccessResponse({
+            message: 'Get Discount Amount Successfully',
+            metadata: await DiscountService.getAllProductsWithDiscountCode({
+                ...req.query
+            })
+        })
+    }
+}
+
+
+module.exports = new DiscountController
