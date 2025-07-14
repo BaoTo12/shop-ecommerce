@@ -5,11 +5,11 @@ const DOCUMENT_NAME = "inventory"
 const COLLECTION_NAME = "inventories"
 
 const inventorySchema = new Schema({
-    invent_product: {
+    invent_productId: {
         type: Schema.Types.ObjectId,
         ref: "product"
     },
-    invent_shop: {
+    invent_shopId: {
         type: Schema.Types.ObjectId,
         ref: "shop"
     },
