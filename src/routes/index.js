@@ -10,6 +10,6 @@ router.use(checkApiKey)
 router.use(checkPermission("0000"))
 
 router.use(`/${process.env.API_VERSION}/api`, require("./access"))
-
+router.use(`/${process.env.API_VERSION}/api/product`, require("./product"))
 
 module.exports = router

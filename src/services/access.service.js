@@ -17,6 +17,38 @@ const RoleShop = {
 }
 
 class AccessService {
+    // V2 for handleRefreshToken
+    static handleRefreshTokenV2 = async ({ refreshToken, user, keyStore }) => {
+        const { userId, email } = user;
+        if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+            await KeyTokenService.deleteKeyByUserId(userId)
+            throw new ForbiddenError("Refresh Token has been used --> ERROR")
+        }
+        if (keyStore.refreshToken !== refreshToken) throw new ForbiddenError("Refresh Token is not valid")
+
+        const foundShop = await findByEmail({ email })
+        if (!foundShop) throw new AuthFailureError("Shop is not registered")
+
+        // if found we create a new key pairs and put the old refresh token ito refreshTokenUsed
+        const tokens = await createTokenPairs({
+            userId: foundShop._id,
+            email
+        }, keyStore.publicKey, keyStore.privateKey)
+
+
+        await keyStore.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken
+            }
+        })
+        return {
+            user,
+            tokens
+        }
+    }
 
     static handleRefreshToken = async (refreshToken) => {
         // check this refreshToken in blackList in keyTokenSchema refreshTokenUsed
