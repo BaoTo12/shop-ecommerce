@@ -19,7 +19,7 @@ const inventorySchema = new Schema({
     discount_min_order_value: { type: Number, required: true },
     discount_shopId: { type: Schema.Types.ObjectId, ref: "Shop" },
     discount_is_active: { type: Boolean, default: true },
-    discount_applies_to: { type: String, required: true, enum: ["all", "special"] },
+    discount_applies_to: { type: String, required: true, enum: ["all", "specific"] },
     discount_product_ids: {type: Array, default: []} // Discount is applied to what products
 }, {
     timestamps: true,
