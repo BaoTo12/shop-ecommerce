@@ -21,9 +21,9 @@ const removeFalseField = (object) => {
         if (object[field] == null || object[field] == undefined) {
             delete object[field]
         }
-        // if (typeof object[field] === "object") {
-        //     removeFalseField(object[field])
-        // }
+        if (typeof object[field] === "object") {
+            removeFalseField(object[field])
+        }
     })
 
     return object
