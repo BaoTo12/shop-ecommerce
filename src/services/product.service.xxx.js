@@ -6,8 +6,10 @@ const {
     findAllPublicProductForShop,
     unPublishProductByShop,
     searchProductByUser,
-    findAllProducts, 
-    findProduct} = require("../models/repositories/product.repo")
+    findAllProducts,
+    findProduct,
+    updateProductById } = require("../models/repositories/product.repo")
+const { removeFalseField } = require("../utils")
 // Define Factory Class
 class ProductFactory {
 
@@ -17,7 +19,7 @@ class ProductFactory {
     static registeredProductType(type, classRef) {
         ProductFactory.productRegistry[type] = classRef
     }
-    // create
+    //* create
     static async createProduct(type, payload) {
         // get class by type
         const ProductClass = ProductFactory.productRegistry[type]
@@ -26,16 +28,17 @@ class ProductFactory {
         return new ProductClass(payload).createProduct()
     }
 
-    // update
-    static async updateProduct(type, payload) {
+    //* update
+    static async updateProduct(type, product_id, payload) {
         // get class by type
         const ProductClass = ProductFactory.productRegistry[type]
         if (!ProductClass) throw new BadRequestError("Cannot find product with type:" + type)
+        console.log({ payload });
 
-        return new ProductClass(payload).createProduct()
+        return new ProductClass(payload).updateProduct(product_id)
     }
 
-    // PUT
+    //* PUT
     static async publishProductByShop({ product_shop, product_id }) {
         return await publishProductByShop({ product_shop, product_id })
     }
@@ -43,10 +46,10 @@ class ProductFactory {
     static async unPublishProductByShop({ product_shop, product_id }) {
         return await unPublishProductByShop({ product_shop, product_id })
     }
-    // END PUT
+    //* END PUT
 
 
-    // QUERY
+    //* QUERY
     // query list of draft products
     static async findAllDraftProductForShop({ product_shop, limit = 50, skip = 0 }) {
         const query = { product_shop, isDraft: true }
@@ -72,9 +75,9 @@ class ProductFactory {
     }
     // find product
     static async findProduct({ product_id }) {
-        return await findProduct({product_id, unSelect: ["__v"]})
+        return await findProduct({ product_id, unSelect: ["__v"] })
     }
-    // END QUERY
+    //* END QUERY
 }
 
 // define Base Class
@@ -82,7 +85,8 @@ class Product {
     constructor({
         product_name, product_thumb,
         product_description, product_price,
-        product_type, product_shop, product_attributes, product_quantity
+        product_type, product_shop, product_attributes, product_quantity,
+        product_variations
     }) {
         this.product_name = product_name
         this.product_thumb = product_thumb
@@ -92,6 +96,7 @@ class Product {
         this.product_shop = product_shop
         this.product_attributes = product_attributes
         this.product_quantity = product_quantity
+        this.product_variations = product_variations
     }
     // create new product
     async createProduct(product_id) {
@@ -99,6 +104,10 @@ class Product {
             ...this,
             _id: product_id
         })
+    }
+    // update
+    async updateProduct(product_id, payload) {
+        return await updateProductById({ product_id, payload, model: product })
     }
 }
 
@@ -116,6 +125,23 @@ class Clothing extends Product {
         if (!newProduct) throw new BadRequestError("Error While Create New Product::[Inside Clothing Class]")
 
         return newProduct;
+    }
+
+    async updateProduct(product_id) {
+        // remove all fields has falsy values\
+        console.log("BEFORE", this);
+        const objectParams = removeFalseField(this);
+        console.log("AFTER", this);
+
+        // check where to update, if the payload has attributes object --> update both parent and child classes
+        if (objectParams.product_attributes) {
+            // update child
+            await updateProductById({ product_id, payload: objectParams.product_attributes, model: clothing })
+        }
+
+        const updateProduct = await super.updateProduct(product_id, objectParams)
+
+        return updateProduct
     }
 }
 // define Electronics Class
