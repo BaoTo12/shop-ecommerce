@@ -14,10 +14,6 @@ class ProductController {
         }).send(res)
     }
     updateProduct = async (req, res, next) => {
-        console.log({
-            ...req.body
-        });
-
         new SuccessResponse({
             message: 'update Product Successfully!',
             metadata: await ProductServiceV2.updateProduct(req.body.product_type,

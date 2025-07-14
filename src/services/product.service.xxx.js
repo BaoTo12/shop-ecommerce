@@ -9,7 +9,7 @@ const {
     findAllProducts,
     findProduct,
     updateProductById } = require("../models/repositories/product.repo")
-const { removeFalseField } = require("../utils")
+const { removeFalseField, updateNestedObject } = require("../utils")
 // Define Factory Class
 class ProductFactory {
 
@@ -33,8 +33,6 @@ class ProductFactory {
         // get class by type
         const ProductClass = ProductFactory.productRegistry[type]
         if (!ProductClass) throw new BadRequestError("Cannot find product with type:" + type)
-        console.log({ payload });
-
         return new ProductClass(payload).updateProduct(product_id)
     }
 
@@ -129,17 +127,18 @@ class Clothing extends Product {
 
     async updateProduct(product_id) {
         // remove all fields has falsy values\
-        console.log("BEFORE", this);
         const objectParams = removeFalseField(this);
-        console.log("AFTER", this);
-
         // check where to update, if the payload has attributes object --> update both parent and child classes
         if (objectParams.product_attributes) {
             // update child
-            await updateProductById({ product_id, payload: objectParams.product_attributes, model: clothing })
+            await updateProductById({
+                product_id,
+                payload: updateNestedObject(objectParams.product_attributes),
+                model: clothing
+            })
         }
 
-        const updateProduct = await super.updateProduct(product_id, objectParams)
+        const updateProduct = await super.updateProduct(product_id, updateNestedObject(objectParams))
 
         return updateProduct
     }
