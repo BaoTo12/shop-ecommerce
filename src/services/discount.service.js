@@ -138,14 +138,14 @@ class DiscountService {
             }
         ]
     */
-    static async getDiscountAmount({ codeId, userId, shopId, products }) {
+    static async getDiscountAmount({ code, userId, shopId, products }) {
         const foundDiscount = await checkDiscountExist({
-            discount_code: codeId,
+            discount_code: code,
             discount_shopId: convertToObjectId(shopId)
         })
 
         if (!foundDiscount) {
-            throw new NotFoundError(`Cannot find discount with code ${codeId}`)
+            throw new NotFoundError(`Cannot find discount with code ${code}`)
         }
         const {
             discount_is_active,
@@ -156,11 +156,11 @@ class DiscountService {
             discount_type,
             discount_value
         } = foundDiscount;
-        if (!discount_is_active) throw new NotFoundError(`Discount with code ${codeId} is not active yet`)
-        if (!discount_max_uses) throw new NotFoundError(`Discount with code ${codeId} has reached its usage limit`)
+        if (!discount_is_active) throw new NotFoundError(`Discount with code ${code} is not active yet`)
+        if (!discount_max_uses) throw new NotFoundError(`Discount with code ${code} has reached its usage limit`)
 
-        if (new Date() < new Date(foundDiscount.discount_start_date) || new Date() > new Date(foundDiscount.discount_end_date))
-            throw new BadRequestError(`Discount with code ${codeId} is expired`)
+        if ( new Date() > new Date(foundDiscount.discount_end_date))
+            throw new BadRequestError(`Discount with code ${code} is expired`)
 
         // check min value
         let totalOrder = 0;
@@ -194,19 +194,19 @@ class DiscountService {
 
 
     // Delete discount
-    static async deleteDiscountCode({ shopId, codeId }) {
+    static async deleteDiscountCode({ shopId, code }) {
         const deleted = await discount.findOneAndDelete({
-            discount_code: codeId,
+            discount_code: code,
             discount_shopId: convertToObjectId(shopId)
         })
         return deleted
     }
     // Cancel discount
-    static async cancelDiscountCode({ codeId, shopId, userId }) {
+    static async cancelDiscountCode({ code, shopId, userId }) {
         const foundDiscount = await checkDiscountExist({
             model: discount,
             filter: {
-                discount_code: codeId,
+                discount_code: code,
                 discount_shopId: convertToObjectId(shopId)
             }
         })
