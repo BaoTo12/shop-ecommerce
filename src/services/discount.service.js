@@ -2,7 +2,7 @@
 
 const { BadRequestError, NotFoundError } = require("../core/error.response")
 const { discount } = require("../models/discount.model")
-const { checkDiscountExist } = require("../models/repositories/discount.service")
+const { checkDiscountExist, findAllDiscountCodesUnSelect } = require("../models/repositories/discount.service")
 const { findAllProducts } = require("../models/repositories/product.repo")
 const { convertToObjectId } = require("../utils")
 
@@ -109,11 +109,11 @@ class DiscountService {
                 select: ["product_name"]
             });
         }
-        console.log({products});
+        console.log({ products });
         return products;
     }
 
-    static async getAllDiscountsByShopId({ limit, page, shopId }) {
+    static async getAllDiscountsByShopId({ limit = 50, page = 1, shopId }) {
         const discounts = await findAllDiscountCodesUnSelect({
             limit: +limit,
             page: +page,
