@@ -3,7 +3,7 @@
 const _ = require("lodash")
 const { Types } = require("mongoose")
 
-const convertToObjectId = id => Types.ObjectId(id)
+const convertToObjectId = id => new Types.ObjectId(id)
 
 const getInfoShopData = ({ fields = [], object = {} }) => {
     return _.pick(object, fields)
