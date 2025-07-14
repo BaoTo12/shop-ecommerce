@@ -107,6 +107,20 @@ class DiscountService {
         }
         return products;
     }
+
+    static async getAllDiscountsByShopId({ limit, page, shopId }) {
+        const discounts = await findAllDiscountCodesUnSelect({
+            limit: +limit,
+            page: +page,
+            filter: {
+                discount_shopId: convertToObjectId(shopId),
+                discount_is_active: true
+            },
+            unselect: ["__v", "discount_shopId"],
+            model: discount
+        })
+        return discounts;
+    }
 }
 
 module.exports = DiscountService
