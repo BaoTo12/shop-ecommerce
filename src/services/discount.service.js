@@ -70,6 +70,8 @@ class DiscountService {
     static async getAllProductsWithDiscountCode({
         code, shopId, userId, limit, page
     }) {
+        if (!shopId) throw new BadRequestError("Missing shopId")
+        if (!code) throw new BadRequestError("Missing Discount code")
         // check whether discount exists
         const foundDiscount = await discount.findOne({
             discount_code: code,
@@ -95,6 +97,7 @@ class DiscountService {
             });
         }
         if (discount_applies_to === "specific") {
+            console.log("specific");
             products = await findAllProducts({
                 filter: {
                     _id: { $in: discount_product_ids },
@@ -106,6 +109,7 @@ class DiscountService {
                 select: ["product_name"]
             });
         }
+        console.log({products});
         return products;
     }
 
@@ -207,12 +211,12 @@ class DiscountService {
             }
         })
         if (!foundDiscount) throw new NotFoundError(`discount doesn't exist`)
-        
+
         const result = await discount.findByIdAndUpdate(foundDiscount._id, {
             $pull: {
                 discount_users_used: userId
             },
-            $inc:{
+            $inc: {
                 discount_max_uses: 1,
                 discount_uses_count: -1
             }

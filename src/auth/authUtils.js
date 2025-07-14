@@ -76,6 +76,8 @@ const authentication = asyncHandler(async (req, res, next) => {
 
 })
 const authenticationV2 = asyncHandler(async (req, res, next) => {
+    // In your authenticationV2 function, add this first line:
+    console.log("authenticationV2 called for URL:", req.originalUrl, "Method:", req.method);
     // 1 - check wether userId is present in header
     const userId = req.headers[HEADER.CLIENT_ID];
     if (!userId) throw new AuthFailureError("UserId is not present in header")
