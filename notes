@@ -113,7 +113,29 @@ await User.updateOne(
   { $pull: { tags: { $in: ['old-tag', 'deprecated-tag'] } } }
 );
 ```
+
+**$unset**: Xóa trường khỏi document	{ $unset: { tempField: 1 } }
+**$rename**: Đổi tên trường	{ $rename: { old: "new" } }
+**$rename**: Đổi tên trường	{ $rename: { old: "new" } }
+**$currentDate**: Cập nhật ngày giờ hiện tại	{ $currentDate: { modified: true } }
+**$push**: 	Thêm phần tử vào cuối mảng	{ $push: { tags: "new" } }
+**$addToSet**: Thêm phần tử nếu chưa tồn tại (không trùng lặp)	{ $addToSet: { tags: "unique" } }
+**$pop**: Xóa phần tử đầu/cuối mảng	{ $pop: { scores: 1 } } (1=cuối, -1=đầu)
+**$pullAll**: Xóa tất cả phần tử khớp giá trị chính xác	{ $pullAll: { scores: [0, 5] } }
+**$position**: Chỉ định vị trí thêm (kết hợp với $push)	{ $push: { list: { $each: ["A"], $position: 0 } } }
+**$pullAll**: Xóa tất cả phần tử khớp giá trị chính xác	{ $pullAll: { scores: [0, 5] } }
+**$pullAll**: Xóa tất cả phần tử khớp giá trị chính xác	{ $pullAll: { scores: [0, 5] } }
+**updateOne**( <filter>, <update>,[options])
+**updateMany**( <filter>, <update>,[options])
+**findOneAndUpdate**( <filter>, <update>,[options])
+**findByIdAndUpdate**( <filter>, <update>,[options])
+{
+  <operator1>: { <field1>: <value1>, ... },
+  <operator2>: { <field2>: <value2>, ... },
+  // ...
+}
 ----------------------------------------------------------------------------------------------------------------------------------
+
 ### JWT, JWS, JWE
 
 - JWT là một loại của bộ tiêu chuẩn JOSE (JSON Object Signing and Encryption)
