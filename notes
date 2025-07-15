@@ -135,6 +135,7 @@ await User.updateOne(
   // ...
 }
 ----------------------------------------------------------------------------------------------------------------------------------
+
 ### JWT, JWS, JWE
 
 - JWT là một loại của bộ tiêu chuẩn JOSE (JSON Object Signing and Encryption)

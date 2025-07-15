@@ -27,9 +27,11 @@ class CartService {
                 cart_products: product
             }
         }
-        const options = { upSert: true, new: true }
+        const options = { upsert: true, new: true }
+        const results = await cart.findOneAndUpdate(query, updateOrInsert, options);
+        console.log({ results });
 
-        return await cart.findOneAndUpdate(query, updateOrInsert, options)
+        return results
     }
 
     static async updateUserCartQuantity({ userId, product }) {
@@ -44,7 +46,7 @@ class CartService {
                 "cart_products.$quantity": quantity
             }
         }
-        const options = { upSert: true, new: true }
+        const options = { upsert: true, new: true }
         return await cart.findOneAndUpdate(query, updateSet, options)
     }
 
