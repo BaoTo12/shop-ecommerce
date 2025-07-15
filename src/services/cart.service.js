@@ -107,7 +107,7 @@ class CartService {
     }
 
     // Delete
-    static async deleteUserCart({ userId, product_id }) {
+    static async deleteUserCart({ userId, productId }) {
         const query = { cart_userId: userId, cart_state: 'active' };
         const updateSet = {
             $pull: {
