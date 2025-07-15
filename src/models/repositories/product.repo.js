@@ -95,7 +95,7 @@ const updateProductById = async ({ product_id, payload, model, isNew = true }) =
 }
 
 const getProductById = async (product_id) => {
-    return await product.findById(convertToObjectId(product_id)).lean()
+    return await product.findById(product_id).lean()
 }
 
 module.exports = {

@@ -43,7 +43,7 @@ class CartService {
         }
         const updateSet = {
             $inc: {
-                "cart_products.$quantity": quantity
+                "cart_products.$.quantity": quantity
             }
         }
         const options = { upsert: true, new: true }
@@ -61,7 +61,7 @@ class CartService {
         }
         // cart is present but empty
         if (!userCart.cart_products.length) {
-            userCart.cart_products = [...product]
+            userCart.cart_products = [product]
             return await userCart.save()
         }
 
@@ -84,10 +84,10 @@ class CartService {
         _version}
     ]
     */
-    static async addToCartV2({ userId, product = {} }) {
-        const { product_id, quantity, old_quantity } = shop_order_ids[0]?.item_products[0]
+    static async addToCartV2({ userId, shop_order_ids }) {
+        const { productId, quantity, old_quantity } = shop_order_ids[0]?.item_products[0]
         // check product
-        const foundProduct = await getProductById(product_id)
+        const foundProduct = await getProductById(productId)
         if (!foundProduct) throw new NotFoundError("Cannot find Product!!")
 
         // compare
@@ -100,7 +100,7 @@ class CartService {
         return await CartService.updateUserCartQuantity({
             userId,
             product: {
-                product_id,
+                productId,
                 quantity: quantity - old_quantity
             }
         })
