@@ -33,5 +33,5 @@ const orderSchema = new Schema({
 });
 
 module.exports = {
-    module: model(DOCUMENT_NAME, orderSchema)
+    order: model(DOCUMENT_NAME, orderSchema)
 }
