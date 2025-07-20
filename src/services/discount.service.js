@@ -2,7 +2,7 @@
 
 const { BadRequestError, NotFoundError } = require("../core/error.response")
 const { discount } = require("../models/discount.model")
-const { checkDiscountExist, findAllDiscountCodesUnSelect } = require("../models/repositories/discount.service")
+const { checkDiscountExist, findAllDiscountCodesUnSelect } = require("../models/repositories/discount.repo")
 const { findAllProducts } = require("../models/repositories/product.repo")
 const { convertToObjectId } = require("../utils")
 
