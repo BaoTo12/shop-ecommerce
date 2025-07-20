@@ -4,6 +4,8 @@ const { findCartById } = require("../models/repositories/cart.repo")
 const { BadRequestError } = require("../core/error.response")
 const { acquireLock, releaseLock } = require("./redis.service")
 const { order } = require("../models/order.model")
+const { checkProductByServer } = require("../models/repositories/product.repo")
+const { getDiscountAmount } = require("./discount.service")
 class CheckoutService {
     //     {
     //     "cartId": "",
@@ -44,7 +46,7 @@ class CheckoutService {
 
         const checkout_order = {
             totalPrice: 0, // tong tien hang (total item price)
-            feeShip: 0, // phi van chuyen (shipping fee)
+            freeShip: 0, // phi van chuyen (shipping free)
             totalDiscount: 0, // tong tien discount giam gia (total discount amount)
             totalCheckout: 0 // tong thanh toan (total checkout amount)
         }, shop_order_ids_new = [];
@@ -52,9 +54,11 @@ class CheckoutService {
         // tinh tong tien bill (calculate total bill amount)
         for (let i = 0; i < shop_order_ids.length; i++) {
             const { shopId, shop_discount = [], item_products = [] } = shop_order_ids[i];
+            console.log({shop_discount});
+            
             // check product available
             const checkProductServer = await checkProductByServer(item_products);
-            console.log(`checkProductServer::`, checkProductServer);
+            // console.log(`checkProductServer::`, checkProductServer);
             if (!checkProductServer[0]) throw new BadRequestError('order wrong!!!');
 
             // tong tien don hang (total order amount)

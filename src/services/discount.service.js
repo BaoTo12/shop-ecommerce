@@ -138,14 +138,16 @@ class DiscountService {
             }
         ]
     */
-    static async getDiscountAmount({ code, userId, shopId, products }) {
+    static async getDiscountAmount({ codeId, userId, shopId, products }) {
+        console.log({codeId, shopId});
+        
         const foundDiscount = await checkDiscountExist({
-            discount_code: code,
+            discount_code: codeId,
             discount_shopId: convertToObjectId(shopId)
         })
 
         if (!foundDiscount) {
-            throw new NotFoundError(`Cannot find discount with code ${code}`)
+            throw new NotFoundError(`Cannot find discount with code ${codeId}`)
         }
         const {
             discount_is_active,
@@ -156,11 +158,11 @@ class DiscountService {
             discount_type,
             discount_value
         } = foundDiscount;
-        if (!discount_is_active) throw new NotFoundError(`Discount with code ${code} is not active yet`)
-        if (!discount_max_uses) throw new NotFoundError(`Discount with code ${code} has reached its usage limit`)
+        if (!discount_is_active) throw new NotFoundError(`Discount with code ${codeId} is not active yet`)
+        if (!discount_max_uses) throw new NotFoundError(`Discount with code ${codeId} has reached its usage limit`)
 
         if ( new Date() > new Date(foundDiscount.discount_end_date))
-            throw new BadRequestError(`Discount with code ${code} is expired`)
+            throw new BadRequestError(`Discount with code ${codeId} is expired`)
 
         // check min value
         let totalOrder = 0;
