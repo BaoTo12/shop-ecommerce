@@ -50,6 +50,14 @@ app.use(helmet())
 // ? compression: Compression in Node.js lets you shrink payloads (HTTP responses or files) using algorithms like Gzip or Brotli. 
 // You trade a bit of CPU work for faster network transfers and lower bandwidth.
 app.use(compression())
+
+// TODO: Test Pub Sub pattern in Redis
+// require('./tests/inventory.test')
+// const productTest = require('./tests/product.test')
+// productTest.purchaseProduct('product:001', 10)
+
+
+
 //TODO: init Database
 require("./dbs/init.mongodb")
 
@@ -58,15 +66,15 @@ app.use("", require("./routes"))
 
 //TODO: handle errors
 app.use((req, res, next) => {
-    
+
     const error = new Error("Not Found")
     error.status = 404;
     next(error)
 })
 app.use((error, req, res, next) => {
-    const statusCode = error.status || 500 ;
-    console.log({error});
-    
+    const statusCode = error.status || 500;
+    console.log({ error });
+
     return res.status(statusCode).json({
         status: "error",
         code: statusCode,
