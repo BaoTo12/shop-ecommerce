@@ -14,5 +14,6 @@ router.use(`/${process.env.API_VERSION}/api/product`, require("./product"))
 router.use(`/${process.env.API_VERSION}/api/discount`, require("./discount"))
 router.use(`/${process.env.API_VERSION}/api/cart`, require("./cart"))
 router.use(`/${process.env.API_VERSION}/api/inventory`, require("./inventory"))
+router.use(`/${process.env.API_VERSION}/api/comment`, require("./comment"))
 router.use(`/${process.env.API_VERSION}/api`, require("./access"))
 module.exports = router
