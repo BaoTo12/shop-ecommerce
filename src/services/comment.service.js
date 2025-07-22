@@ -76,6 +76,51 @@ class CommentService {
 
         return comment;
     }
+
+
+    static async getCommentsByParentId({
+        productId,
+        commentParentId = null,
+        limit = 50,
+        offset = 0 // skip
+    }) {
+        // const skip = (offset) * limit;
+        if (commentParentId) {
+            const commentParent = await commentModel.findById(commentParentId)
+            console.log({ commentParent });
+
+            if (!commentParent) throw new BadRequestError(`There is no comment with id: ${commentParentId}::Comment Parent`)
+
+            const comments = await commentModel.find({
+                comment_productId: convertToObjectId(productId),
+                comment_left: { $gt: commentParent.comment_left },
+                comment_right: { $lte: commentParent.comment_right }
+            }).select({
+                comment_left: 1,
+                comment_right: 1,
+                comment_content: 1,
+                comment_parentId: 1
+            }).sort({
+                comment_left: 1
+            }).limit(limit)
+                .lean()
+            return comments;
+        }
+
+
+        const comments = await commentModel.find({
+            comment_productId: convertToObjectId(productId),
+            comment_parentId: commentParentId
+        }).select({
+            comment_left: 1,
+            comment_right: 1,
+            comment_content: 1,
+            comment_parentId: 1
+        }).sort({
+            comment_left: 1
+        })
+        return comments;
+    }
 }
 
 module.exports = CommentService

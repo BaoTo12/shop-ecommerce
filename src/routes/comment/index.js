@@ -12,6 +12,7 @@ const router = express.Router();
 router.use(authenticationV2)
 
 router.post("", asyncHandler(commentController.createComment))
+router.get("", asyncHandler(commentController.getCommentsByParentId))
 
 
 module.exports = router;
