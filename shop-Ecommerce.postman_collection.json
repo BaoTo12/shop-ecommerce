@@ -1,0 +1,1511 @@
+{
+	"info": {
+		"_postman_id": "f724da8f-9649-4cfe-bcb3-7112981afb2b",
+		"name": "shop-Ecommerce",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25057899"
+	},
+	"item": [
+		{
+			"name": "Access",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"shoptipj1@gmail.com\",\n    \"password\": \"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/shop/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shop",
+								"login"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "x-rtoken-id",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyNzk4MTgsImV4cCI6MTc1Mjg4NDYxOH0.sK9mSXITOEAcfvbGKFKCpxghEhgmn5nDex6b2XaakZE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyMDM5MzMsImV4cCI6MTc1MjgwODczM30.bO8mECb7Iqpm1AzRKodwN8_dbwSExzCGdWJOgT7FXlg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIxNTE0NDksImV4cCI6MTc1MjMyNDI0OX0.tu7QBQJhlCj9FT32S0mt6U1kC-jc-TXXTjGZF9xlgvQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"shoptipj1@gmail.com\",\n    \"password\": \"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/shop/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shop",
+								"logout"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shop/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shop",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0NTUzNDYsImV4cCI6MTc1MjYyODE0Nn0.vnTa0WjnEMHGKYgnzbGF6Bi4JEppD614vwusKHgm8bQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Sneaker\",\n    \"product_description\": \"High-quality+ leather Sneaker\",\n    \"product_price\": 999,\n    \"product_shop\": \"686f4a3d2603de4cfb4e1be3\",\n    \"product_type\": \"Clothing\",\n    \"product_thumb\": \"product_thumb\",\n    \"product_quantity\": 150,\n    \"product_attributes\": {\n        \"brand\": \"Channel\",\n        \"size\": \"2X\",\n        \"material\": \"leather\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Publish product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Pyjamas\",\n    \"product_description\": \"High-quality+ cotton pyjamas\",\n    \"product_price\": 20,\n    \"product_shop\": \"686f4a3d2603de4cfb4e1be3\",\n    \"product_type\": \"Clothing\",\n    \"product_thumb\": \"product_thumb\",\n    \"product_quantity\": 2,\n    \"product_attributes\": {\n        \"brand\": \"Channel\",\n        \"size\": \"L\",\n        \"material\": \"Cotton\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/publish/6873a3109eef5f3f24e852f0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"publish",
+								"6873a3109eef5f3f24e852f0"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Un Publish product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyNzk4MTgsImV4cCI6MTc1MjQ1MjYxOH0.o-Us465T32qaAMQuSUp2ObnGRaTMVSe-ilLFp_C4Ry4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Pyjamas\",\n    \"product_description\": \"High-quality+ cotton pyjamas\",\n    \"product_price\": 20,\n    \"product_shop\": \"686f4a3d2603de4cfb4e1be3\",\n    \"product_type\": \"Clothing\",\n    \"product_thumb\": \"product_thumb\",\n    \"product_quantity\": 2,\n    \"product_attributes\": {\n        \"brand\": \"Channel\",\n        \"size\": \"L\",\n        \"material\": \"Cotton\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/unpublish/6873a3109eef5f3f24e852f0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"unpublish",
+								"6873a3109eef5f3f24e852f0"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Publish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyNzk4MTgsImV4cCI6MTc1MjQ1MjYxOH0.o-Us465T32qaAMQuSUp2ObnGRaTMVSe-ilLFp_C4Ry4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/publish/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"publish",
+								"all"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0NTUzNDYsImV4cCI6MTc1MjYyODE0Nn0.vnTa0WjnEMHGKYgnzbGF6Bi4JEppD614vwusKHgm8bQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Update produict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0NTUzNDYsImV4cCI6MTc1MjYyODE0Nn0.vnTa0WjnEMHGKYgnzbGF6Bi4JEppD614vwusKHgm8bQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_price\": 200,\r\n    \"product_shop\": \"686f4a3d2603de4cfb4e1be3\",\r\n    \"product_type\": \"Clothing\",\r\n    \"product_quantity\": null,\r\n    \"product_attributes\": {\r\n        \"size\": \"QQ\",\r\n        \"material\": null\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/6873a3109eef5f3f24e852f0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"6873a3109eef5f3f24e852f0"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0NTUzNDYsImV4cCI6MTc1MjYyODE0Nn0.vnTa0WjnEMHGKYgnzbGF6Bi4JEppD614vwusKHgm8bQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/6872691981268b7bef09b511",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"6872691981268b7bef09b511"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get List Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyNzk4MTgsImV4cCI6MTc1MjQ1MjYxOH0.o-Us465T32qaAMQuSUp2ObnGRaTMVSe-ilLFp_C4Ry4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/search/Furniture",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"search",
+								"Furniture"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Draft Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTIyNzk4MTgsImV4cCI6MTc1MjQ1MjYxOH0.o-Us465T32qaAMQuSUp2ObnGRaTMVSe-ilLFp_C4Ry4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/product/draft/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"draft",
+								"all"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Discount",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTMwMTI5MzYsImV4cCI6MTc1MzE4NTczNn0.82D2a-Iqtt7FBsg4780g7SWKqh2LhXLyACfTOnYyU0s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"name fixed amount\",\n    \"description\": \"description\",\n    \"type\": \"percentage\",\n    \"value\": 30000,\n    \"max_value\": 30000,\n    \"code\": \"SHOP-1333\",\n    \"start_date\": \"2025-10-15 09:00:00\",\n    \"end_date\": \"2025-10-20 09:00:00\",\n    \"max_uses\": 10,\n    \"uses_count\": 0,\n    \"users_used\": [],\n    \"max_uses_per_user\": 1,\n    \"min_order_value\": 0,\n    \"created_by\": {},\n    \"is_active\": true,\n    \"applies_to\": \"specific\",\n    \"product_ids\": [\n        \"6874a4d1310bab5b0de10b7f\",\n        \"6873a3109eef5f3f24e852f0\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/discount",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"discount"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products By Discount Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/discount/listProduct?code=SHOP-1122&shopId=686f4a3d2603de4cfb4e1be3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"discount",
+								"listProduct"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "SHOP-1122"
+								},
+								{
+									"key": "shopId",
+									"value": "686f4a3d2603de4cfb4e1be3"
+								}
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Amount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"SHOP-1122\",\r\n    \"userId\": 2,\r\n    \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": \"6872691981268b7bef09b511\",\r\n            \"quantity\": 2,\r\n            \"price\": 41\r\n        },\r\n         {\r\n            \"productId\": \"6874a4d1310bab5b0de10b7f\",\r\n            \"quantity\": 100,\r\n            \"price\": 999\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/discount/amount",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"discount",
+								"amount"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Discounts By ShopId Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTMwMTI5MzYsImV4cCI6MTc1MzE4NTczNn0.82D2a-Iqtt7FBsg4780g7SWKqh2LhXLyACfTOnYyU0s",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/discount",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"discount"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "AddToCart[User]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTMwMTI5MzYsImV4cCI6MTc1MzE4NTczNn0.82D2a-Iqtt7FBsg4780g7SWKqh2LhXLyACfTOnYyU0s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 11,\n    \"product\": {\n        \"productId\": \"6874a4d1310bab5b0de10b7f\",\n        \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\n        \"quantity\": 1,\n        \"name\": \"price\",\n        \"price\": 999\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cart",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateToCart[User]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 11,\n    \"shop_order_ids\": [\n        {\n            \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\n            \"item_products\": [\n                {\n                    \"quantity\": 2,\n                    \"price\": 124,\n                    \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\n                    \"old_quantity\": 1,\n                    \"productId\": \"6874a4d1310bab5b0de10b7f\"\n                }\n            ],\n            \"version\": 2000\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cart/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"update"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "ListToCart[User]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cart?userId=11",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "11"
+								}
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Items In Cart[User]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTI0ODY1NTcsImV4cCI6MTc1MjY1OTM1N30.y_gsWsMkymciomQWjzawefrPB6m4fqvoc6JeLzwfogI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 11,\n    \"productId\": \"6874a4d1310bab5b0de10b7f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cart",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "CheckoutReview[User]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTMwMTI5MzYsImV4cCI6MTc1MzE4NTczNn0.82D2a-Iqtt7FBsg4780g7SWKqh2LhXLyACfTOnYyU0s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cartId\": \"6875a2085f37778534f306eb\",\r\n    \"userId\": 11,\r\n    \"shop_order_ids\": [\r\n        {\r\n            \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\r\n            \"shop_discount\": [{\r\n                \"shopId\": \"686f4a3d2603de4cfb4e1be3\",\r\n                \"codeId\": \"SHOP-1122\",\r\n                \"discountId\": \"6874dea8fefc7005d7760907\"\r\n            }],\r\n            \"item_products\": [\r\n                {\r\n                    \"productId\": \"6874a4d1310bab5b0de10b7f\",\r\n                    \"quantity\": 6,\r\n                    \"price\": 999\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/checkout/review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"checkout",
+								"review"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Create Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"userId\": 11,\n//     \"productId\": \"6874a4d1310bab5b0de10b7f\",\n//     \"content\": \"comment 1\"\n// }\n\n// {\n//     \"userId\": 11,\n//     \"productId\": \"6874a4d1310bab5b0de10b7f\",\n//     \"content\": \"comment 1.1\",\n//     \"parentCommentId\": \"687ee38cd8c88ef400b32825\"\n// }\n{\n    \"userId\": 11,\n    \"productId\": \"6874a4d1310bab5b0de10b7f\",\n    \"content\": \"comment 1.1.1.2\",\n    \"parentCommentId\": \"687ee4d2aa03a0bf29d2a0b7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/comment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commentId\" : \"687ee4edaa03a0bf29d2a0c7\",\n    \"productId\": \"6874a4d1310bab5b0de10b7f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/comment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Get List Comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "6838f6f19943dc22029f87f0a81ab5c5c17af752",
+								"type": "text"
+							},
+							{
+								"key": "x-client-id",
+								"value": "686f4a3d2603de4cfb4e1be3",
+								"type": "text"
+							},
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"userId\": 11,\n//     \"productId\": \"6874a4d1310bab5b0de10b7f\",\n//     \"content\": \"comment 1\"\n// }\n\n// {\n//     \"userId\": 11,\n//     \"productId\": \"6874a4d1310bab5b0de10b7f\",\n//     \"content\": \"comment 1.1\",\n//     \"parentCommentId\": \"687ee38cd8c88ef400b32825\"\n// }\n{\n    \"userId\": 11,\n    \"productId\": \"6874a4d1310bab5b0de10b7f\",\n    \"content\": \"comment 1.1.1.2\",\n    \"parentCommentId\": \"687ee4d2aa03a0bf29d2a0b7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/comment?productId=6874a4d1310bab5b0de10b7f&commentParentId=687ee38cd8c88ef400b32825",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "6874a4d1310bab5b0de10b7f"
+								},
+								{
+									"key": "commentParentId",
+									"value": "687ee38cd8c88ef400b32825"
+								}
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:3052/v1/api"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZmNGEzZDI2MDNkZTRjZmI0ZTFiZTMiLCJlbWFpbCI6InNob3B0aXBqMUBnbWFpbC5jb20iLCJpYXQiOjE3NTMxNDQxMDksImV4cCI6MTc1MzMxNjkwOX0.i3OhD_Gi0jxuxKJ9aofhrCCzt1Ff-DeEfYDyM05mr2k",
+			"type": "string"
+		}
+	]
+}
